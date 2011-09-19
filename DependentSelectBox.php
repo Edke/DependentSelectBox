@@ -24,9 +24,9 @@ class DependentSelectBox extends SelectBox {
 	/** @var string Html class set on "disabled" control */
 	public static $disabledHtmlClass = "disabledControl";
 	/** @var Title for unselected value */
-	public static $emptyValueTitle = "- - - - -";
+	protected $emptyValueTitle = "- - - - -";
 	/** @var Title for disabled value */
-	public static $disabledItemTitle = "x x x x x";
+	protected $disabledItemTitle = "x x x x x";
 	/** @var Select first item for root SelectBox ? */
 	public $autoSelectRootFirstItem = true;
 
@@ -142,6 +142,25 @@ class DependentSelectBox extends SelectBox {
 			$this->disableSelectBox();
 	}
 
+        /**
+         * Sets empty value
+         * @param string $emptyValueTitle 
+         * @return this
+         */
+        public function setEmptyValueTitle($emptyValueTitle) {
+            $this->emptyValueTitle = $emptyValueTitle;
+            return $this;
+        }
+
+        /**
+         * Sets disabled value
+         * @param this $disabledItemTitle 
+         */
+        public function setDisabledItemTitle($disabledItemTitle) {
+            $this->disabledItemTitle = $disabledItemTitle;
+            return $this;
+        }
+        
 	/**
 	 * Sets default value for control and remake subtree of components
 	 * @param mixed
@@ -343,7 +362,7 @@ class DependentSelectBox extends SelectBox {
 		if($this->disabledValue === null) {
 			$this->setValue(null, false);
 			$this->setItems(array());
-			$this->setPrompt(self::$disabledItemTitle);
+			$this->setPrompt($this->disabledItemTitle);
 		} else {
 			$keys = array_keys($this->disabledValue);
 			$key = reset($keys);
@@ -373,7 +392,7 @@ class DependentSelectBox extends SelectBox {
 	 * Add empty header item and select him
 	 */
 	protected function addEmptyHeaderItem($selectFirst = true) {
-		$this->setPrompt(self::$emptyValueTitle);
+		$this->setPrompt($this->emptyValueTitle);
 		if($selectFirst)
 			$this->setFirstItemSelected();
 	}
