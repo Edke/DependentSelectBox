@@ -16,10 +16,6 @@ class JsonDependentSelectBox extends DependentSelectBox
 {
 
 	public static $jsonResoponseItems = array();
-        /**
-         * @var \Nette\Application\UI\Presenter
-         */
-	public static $presenter;
 
 	public function submitButtonHandler($button) {
 		parent::submitButtonHandler($button);
@@ -34,7 +30,7 @@ class JsonDependentSelectBox extends DependentSelectBox
 				$child->addJsonResponseItem($child);
 	}
 
-	public static function tryJsonResponse() {
+	public static function getJsonResponse() {
 		if(empty(self::$jsonResoponseItems))
 			return;
 
@@ -48,8 +44,7 @@ class JsonDependentSelectBox extends DependentSelectBox
 				"items" => $item->getItems()
 			);
 		}
-		$response = new JsonResponse($payload);
-		self::$presenter->sendResponse($response);
+		return new JsonResponse($payload);
 	}
 
 
@@ -57,7 +52,6 @@ class JsonDependentSelectBox extends DependentSelectBox
 	 * @deprecated Alias for Container_prototype_addDependentSelectBox
 	 */
 	public static function formAddJsonDependentSelectBox($_this, $name, $label, $parents, $dataCallback) {
-		self::$presenter = $_this->getPresenter();
 		return self::Container_prototype_addJsonDependentSelectBox($_this, $name, $label, $parents, $dataCallback);
 	}
 
